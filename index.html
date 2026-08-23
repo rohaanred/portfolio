@@ -973,16 +973,35 @@ if (photoStrip) {
 
 /* ---------------- contact form: static site has no backend, so we open a pre-filled mailto ---------------- */
 const contactForm = document.getElementById('contactForm');
+
 if (contactForm) {
-  contactForm.addEventListener('submit', (e)=>{
-    e.preventDefault();
-    const name = document.getElementById('cf-name').value.trim();
-    const email = document.getElementById('cf-email').value.trim();
-    const message = document.getElementById('cf-message').value.trim();
-    const subject = encodeURIComponent(`Portfolio inquiry from ${name || 'your site'}`);
-    const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
-    window.location.href = `mailto:rohanworkp@gmail.com?subject=${subject}&body=${body}`;
-  });
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById('cf-name').value.trim();
+        const email = document.getElementById('cf-email').value.trim();
+        const message = document.getElementById('cf-message').value.trim();
+
+        const { error } = await supabaseClient
+            .from('messages')
+            .insert([
+                {
+                    name: name,
+                    email: email,
+                    message: message
+                }
+            ]);
+
+        if (error) {
+            console.error('Error:', error);
+            alert('Something went wrong. Please try again.');
+            return;
+        }
+
+        alert('Message sent successfully!');
+
+        contactForm.reset();
+    });
 }
 
 /* ---------------- nav click: smooth-scroll if Lenis is up, else native fallback ---------------- */
@@ -1076,6 +1095,28 @@ try {
 } catch (err) {
   console.warn('[portfolio] enhanced animation layer skipped:', err.message);
 }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+  const SUPABASE_URL = "https://sjpvczscpqeiuvwzxwzs.supabase.co";
+  const SUPABASE_KEY = "sb_publishable_2j7728CcELcUBm-N1E7LKg_tWwCmpAN";
+
+  const supabaseClient = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+</script>
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+
+  const supabaseUrl = 'https://sjpvczscpqeiuvwzxwzs.supabase.co';
+  const supabaseKey = 'sb_publishable_2j7728CcELcUBm-N1E7LKg_tWwCmpAN';
+
+  const supabase = createClient(supabaseUrl, supabaseKey);
+
+  console.log('Supabase connected!');
 </script>
 </body>
 </html>
