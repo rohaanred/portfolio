@@ -267,9 +267,7 @@
   }
   .banner-strip{
     display:flex;gap:16px;width:max-content;cursor:none;
-    animation:photo-scroll 40s linear infinite;
   }
-  .banner-strip.paused{animation-play-state:paused;}
   .strip-card{
     width:min(28vw,380px);flex:0 0 auto;aspect-ratio:16/9;border-radius:6px;overflow:hidden;
     background:#0e0e0e;border:1px solid rgba(242,239,233,0.18);
@@ -934,7 +932,37 @@ function wireMarquee(stripId, opts){
     strip.style.transform = `translateX(${startTranslate + walk}px)`;
   });
 }
-wireMarquee('heroStrip', { pauseOnHover: false });
+/* ---------------- hero strip: JS-driven cyclic auto-scroll with drag ---------------- */
+(function(){
+  const strip = document.getElementById('heroStrip');
+  if (!strip) return;
+  const wrap = strip.parentElement;
+  const SPEED = 0.6;
+  let pos = 0, isDragging = false, dragStartX = 0, dragStartPos = 0;
+  const halfWidth = () => strip.scrollWidth / 2;
+
+  function animate(){
+    if (!isDragging) {
+      pos -= SPEED;
+      if (pos <= -halfWidth()) pos += halfWidth();
+    }
+    strip.style.transform = `translateX(${pos}px)`;
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  strip.addEventListener('mousedown', e => {
+    isDragging = true;
+    dragStartX = e.pageX;
+    dragStartPos = pos;
+    e.preventDefault();
+  });
+  window.addEventListener('mouseup', () => { isDragging = false; });
+  window.addEventListener('mousemove', e => {
+    if (!isDragging) return;
+    pos = dragStartPos + (e.pageX - dragStartX);
+  });
+})();
 
 /* ---------------- photography marquee: auto-scrolls via CSS, pauses on hover/drag ---------------- */
 const photoStrip = document.getElementById('photoStrip');
