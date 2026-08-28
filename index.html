@@ -837,8 +837,8 @@
   <div class="footer-copy">© <span id="year"></span> All rights reserved.</div>
 </footer>
 
-<!-- Background music: plays from 2:22 onwards, loops that section -->
-<audio id="bgMusic" preload="auto">
+<!-- Background music: plays from 2:22, loops that section -->
+<audio id="bgMusic" loop preload="auto">
   <source src="music/Travis Scott - MY EYES (Official Audio) - Travis Scott (128k).mp3" type="audio/mpeg">
 </audio>
 
@@ -1121,20 +1121,24 @@ if (bgMusic && musicToggle) {
     }
   });
 
-  // auto-play on first user interaction (browsers require gesture)
-  let autoPlayed = false;
-  function tryAutoPlay() {
-    if (autoPlayed) return;
-    autoPlayed = true;
+  // Try playing immediately
+  function startMusic() {
+    if (musicPlaying) return;
     bgMusic.currentTime = MUSIC_START;
     bgMusic.play().then(() => {
       musicPlaying = true;
       musicToggle.textContent = 'MUTE';
     }).catch(() => {});
   }
-  document.addEventListener('click', tryAutoPlay, { once: true });
-  document.addEventListener('scroll', tryAutoPlay, { once: true });
-  document.addEventListener('mousemove', tryAutoPlay, { once: true });
+
+  // Try on load
+  startMusic();
+  bgMusic.addEventListener('canplay', startMusic);
+
+  // Fallback: play on ANY user interaction
+  ['click','scroll','mousemove','keydown','touchstart','touchmove'].forEach(evt => {
+    document.addEventListener(evt, startMusic, { once: false });
+  });
 
   musicToggle.addEventListener('click', (e) => {
     e.stopPropagation();
