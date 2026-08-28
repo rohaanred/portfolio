@@ -452,25 +452,19 @@
   /* ---------- MUSIC TOGGLE ---------- */
   .music-toggle{
     position:fixed;bottom:24px;right:24px;z-index:220;
-    width:36px;height:36px;border-radius:50%;
+    height:28px;border-radius:100px;padding:0 12px;
     background:rgba(11,11,12,0.6);backdrop-filter:blur(10px);
     border:1px solid rgba(242,239,233,0.15);
     display:flex;align-items:center;justify-content:center;
     transition:all .3s cubic-bezier(.2,.8,.2,1);
     cursor:none;
+    font-family:var(--display);font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+    color:var(--ash);
   }
   .music-toggle:hover{
     background:rgba(242,239,233,0.1);border-color:rgba(242,239,233,0.3);
-    transform:scale(1.1);
+    transform:scale(1.05);color:var(--paper);
   }
-  .music-toggle svg{width:16px;height:16px;transition:opacity .3s;}
-  .music-toggle svg path{fill:var(--ash);transition:fill .3s;}
-  .music-toggle:hover svg path{fill:var(--paper);}
-  .music-toggle.muted .music-bars{display:none;}
-  .music-toggle .music-x{
-    display:none;stroke:var(--ash);stroke-width:2;fill:none;
-  }
-  .music-toggle.muted .music-x{display:block;}
   @media (max-width:520px){
     .music-toggle{bottom:80px;right:16px;}
   }
@@ -490,10 +484,9 @@
 </head>
 <body>
 
-<!-- custom cursor: pixel hand pointer -->
+<!-- custom cursor: white pixel hand pointer -->
 <div class="cursor" id="cursor">
   <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-    <!-- pixel hand cursor -->
     <rect x="10" y="0" width="4" height="2" fill="#000"/>
     <rect x="8" y="2" width="2" height="2" fill="#000"/>
     <rect x="10" y="2" width="4" height="2" fill="#fff"/>
@@ -568,18 +561,7 @@
 <div class="hud"><span class="dot"></span><span class="tc" id="timecode">00:00:00:00</span></div>
 
 <!-- music toggle -->
-<button class="music-toggle" id="musicToggle" aria-label="Toggle music">
-  <svg class="music-bars" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-    <rect x="1" y="6" width="2" height="6" rx="1" fill="currentColor" style="fill:var(--ash)"/>
-    <rect x="5" y="3" width="2" height="9" rx="1" fill="currentColor" style="fill:var(--ash)"/>
-    <rect x="9" y="5" width="2" height="7" rx="1" fill="currentColor" style="fill:var(--ash)"/>
-    <rect x="13" y="1" width="2" height="11" rx="1" fill="currentColor" style="fill:var(--ash)"/>
-  </svg>
-  <svg class="music-x" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
-    <line x1="2" y1="2" x2="14" y2="14"/>
-    <line x1="14" y1="2" x2="2" y2="14"/>
-  </svg>
-</button>
+<button class="music-toggle" id="musicToggle" aria-label="Toggle music">MUTE</button>
 
 <nav class="nav">
   <a href="#work">Work</a>
@@ -1120,7 +1102,7 @@ if (contactForm) {
   });
 }
 
-/* ---------------- background music: plays from 2:22, loops that section ---------------- */
+/* ---------------- background music: auto-plays from 2:22, loops that section ---------------- */
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 let musicPlaying = false;
@@ -1139,19 +1121,33 @@ if (bgMusic && musicToggle) {
     }
   });
 
-  musicToggle.addEventListener('click', () => {
+  // auto-play on first user interaction (browsers require gesture)
+  let autoPlayed = false;
+  function tryAutoPlay() {
+    if (autoPlayed) return;
+    autoPlayed = true;
+    bgMusic.currentTime = MUSIC_START;
+    bgMusic.play().then(() => {
+      musicPlaying = true;
+      musicToggle.textContent = 'MUTE';
+    }).catch(() => {});
+  }
+  document.addEventListener('click', tryAutoPlay, { once: true });
+  document.addEventListener('scroll', tryAutoPlay, { once: true });
+  document.addEventListener('mousemove', tryAutoPlay, { once: true });
+
+  musicToggle.addEventListener('click', (e) => {
+    e.stopPropagation();
     if (musicPlaying) {
       bgMusic.pause();
-      musicToggle.classList.add('muted');
+      musicToggle.textContent = 'PLAY';
       musicPlaying = false;
     } else {
       bgMusic.currentTime = MUSIC_START;
       bgMusic.play().then(() => {
-        musicToggle.classList.remove('muted');
+        musicToggle.textContent = 'MUTE';
         musicPlaying = true;
-      }).catch(() => {
-        musicToggle.classList.add('muted');
-      });
+      }).catch(() => {});
     }
   });
 }
