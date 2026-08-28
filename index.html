@@ -855,8 +855,8 @@
   <div class="footer-copy">© <span id="year"></span> All rights reserved.</div>
 </footer>
 
-<!-- Background music: replace src with your local file path -->
-<audio id="bgMusic" loop preload="auto" volume="0.15">
+<!-- Background music: plays from 2:22 onwards, loops that section -->
+<audio id="bgMusic" preload="auto">
   <source src="music/Travis Scott - MY EYES (Official Audio) - Travis Scott (128k).mp3" type="audio/mpeg">
 </audio>
 
@@ -1120,13 +1120,24 @@ if (contactForm) {
   });
 }
 
-/* ---------------- background music with minimal toggle ---------------- */
+/* ---------------- background music: plays from 2:22, loops that section ---------------- */
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
 let musicPlaying = false;
+const MUSIC_START = 142; // 2 minutes 22 seconds
 
 if (bgMusic && musicToggle) {
   bgMusic.volume = 0.15;
+
+  bgMusic.addEventListener('loadedmetadata', () => {
+    bgMusic.currentTime = MUSIC_START;
+  });
+
+  bgMusic.addEventListener('timeupdate', () => {
+    if (bgMusic.currentTime >= bgMusic.duration - 0.5) {
+      bgMusic.currentTime = MUSIC_START;
+    }
+  });
 
   musicToggle.addEventListener('click', () => {
     if (musicPlaying) {
@@ -1134,6 +1145,7 @@ if (bgMusic && musicToggle) {
       musicToggle.classList.add('muted');
       musicPlaying = false;
     } else {
+      bgMusic.currentTime = MUSIC_START;
       bgMusic.play().then(() => {
         musicToggle.classList.remove('muted');
         musicPlaying = true;
