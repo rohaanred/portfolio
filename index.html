@@ -73,29 +73,31 @@
     color:var(--ash);pointer-events:none;text-transform:uppercase;
   }
 
-  /* ---------- custom cursor: pixel hand pointer ---------- */
+  /* ---------- custom cursor: glowing dot cursor ---------- */
   .cursor{
-    position:fixed;top:0;left:0;width:28px;height:36px;
+    position:fixed;top:0;left:0;width:20px;height:20px;
     z-index:9999;pointer-events:none;
-    transform:translate(-2px,-2px);
+    transform:translate(-10px,-10px);
     will-change:left,top;
-    image-rendering:pixelated;
     transition:transform .1s ease,opacity .2s;
+    border-radius:50%;
+    background:var(--paper);
+    box-shadow:0 0 12px 2px rgba(242,239,233,0.6),0 0 24px 4px rgba(193,68,14,0.4);
   }
   .cursor svg{
-    width:100%;height:100%;
-    transition:transform .2s cubic-bezier(.2,.8,.2,1),filter .3s;
-    filter:drop-shadow(1px 1px 0px rgba(0,0,0,0.8));
+    display:none;
   }
   .cursor-label{
-    position:absolute;top:calc(100% + 4px);left:14px;
+    position:absolute;top:calc(100% + 6px);left:50%;transform:translateX(-50%);
     font-family:var(--display);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
     color:var(--paper);opacity:0;white-space:nowrap;transition:opacity .25s;
     background:rgba(11,11,12,0.8);padding:3px 8px;border-radius:3px;
+    font-weight:700;
   }
-  .cursor.grow svg{
-    transform:scale(1.15);
-    filter:drop-shadow(1px 1px 0px rgba(0,0,0,0.8)) drop-shadow(0 0 8px rgba(193,68,14,0.5));
+  .cursor.grow{
+    transform:translate(-14px,-14px);
+    width:28px;height:28px;
+    box-shadow:0 0 16px 4px rgba(242,239,233,0.7),0 0 32px 8px rgba(193,68,14,0.6);
   }
   .cursor.grow .cursor-label{opacity:1;}
 
@@ -180,15 +182,16 @@
 
   /* ---------- BANNER STRIP OVERLAY — positioned upward ---------- */
   .banner-strip-wrap{
-    position:absolute;left:0;right:0;top:22%;transform:none;
+    position:absolute;left:0;right:0;top:30%;transform:none;
     z-index:1;overflow:hidden;display:flex;justify-content:center;
     padding:14px 0;
   }
   .banner-strip{
     display:flex;gap:16px;width:max-content;cursor:none;
+    touch-action:pan-y;user-select:none;-webkit-user-select:none;
   }
   .strip-card{
-    width:min(22vw,300px);flex:0 0 auto;aspect-ratio:16/9;border-radius:6px;overflow:hidden;
+    width:min(28vw,380px);flex:0 0 auto;aspect-ratio:16/9;border-radius:6px;overflow:hidden;
     background:#0e0e0e;border:1px solid rgba(242,239,233,0.18);
     box-shadow:0 12px 30px rgba(0,0,0,0.45);
   }
@@ -264,6 +267,7 @@
     display:flex;gap:20px;padding:0 5vw;cursor:none;
     width:max-content;
     animation:photo-scroll 45s linear infinite;
+    touch-action:pan-y;user-select:none;-webkit-user-select:none;
   }
   .photo-strip.paused{animation-play-state:paused;}
   @keyframes photo-scroll{
@@ -466,7 +470,7 @@
     transform:scale(1.05);color:var(--paper);
   }
   @media (max-width:520px){
-    .music-toggle{bottom:80px;right:16px;}
+    .music-toggle{bottom:60px;right:16px;height:26px;font-size:8px;padding:0 10px;}
   }
 
   /* ---------- VIDEO LOADING SKELETON ---------- */
@@ -480,73 +484,87 @@
     animation:spin .8s linear infinite;
   }
   @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* ========== MOBILE RESPONSIVE ========== */
+  @media (max-width:860px){
+    .hud, .hud-left{display:none;}
+
+    .banner{padding-bottom:100px;}
+    .banner-strip-wrap{top:50%;transform:translateY(-50%);}
+    .banner-name{font-size:clamp(42px,14vw,120px);}
+    .banner-role{font-size:clamp(9px,2.2vw,12px);letter-spacing:0.12em;}
+    .banner-scroll{bottom:88px;font-size:9px;}
+
+    .strip-card{width:min(42vw,200px);aspect-ratio:16/9;}
+    .banner-strip{gap:10px;}
+
+    .projects{padding:80px 5vw 60px;}
+    .section-head{margin-bottom:40px;}
+    .section-title{font-size:clamp(28px,8vw,48px);}
+    .project-grid{grid-auto-rows:minmax(140px,50vw);}
+    .project{aspect-ratio:auto !important;border-radius:6px;}
+    .project-meta{padding:16px;}
+    .project-name{font-size:clamp(14px,4vw,20px);}
+    .project-tags span{font-size:10px;}
+    .project-duration{font-size:11px;}
+    .watch-btn{
+      opacity:1;transform:translateY(0);
+      width:38px;height:38px;font-size:12px;
+    }
+
+    .about-page{padding:60px 5vw;gap:32px;}
+    .about-page-1{min-height:auto;}
+    .about-visual{aspect-ratio:3/4;}
+    .about-copy p{font-size:clamp(17px,4.5vw,24px);}
+    .about-copy p + p{font-size:14px;margin-top:20px;}
+    .about-page-2{padding:50px 5vw 60px;}
+    .about-stats{gap:24px;}
+    .stat-value{font-size:clamp(14px,3.5vw,18px);}
+
+    .photo-section{padding:60px 0 70px;}
+    .photo-card{width:min(70vw,300px);aspect-ratio:3/4;}
+    .photo-strip{gap:12px;}
+
+    .skills{padding:60px 0;}
+    .marquee-track{gap:28px;padding-right:28px;}
+    .marquee-track span{font-size:clamp(20px,6vw,36px);gap:28px;}
+
+    .socials{padding:0;}
+    .social-link{padding:28px 20px;gap:40px;}
+    .social-name{font-size:clamp(16px,5vw,22px);}
+
+    .contact{padding:80px 5vw 60px;}
+    .contact-title{font-size:clamp(30px,9vw,56px);}
+    .contact-grid{margin-top:48px;gap:40px;}
+    .field input,.field textarea{font-size:16px;}
+
+    footer{padding:40px 5vw 60px;}
+    .footer-brand{font-size:clamp(36px,12vw,64px);}
+  }
+
+  @media (max-width:520px){
+    .banner-strip-wrap{top:50%;transform:translateY(-50%);}
+    .strip-card{width:min(50vw,160px);}
+
+    .projects{padding:60px 4vw 40px;}
+    .project-grid{gap:10px;grid-auto-rows:minmax(120px,55vw);}
+
+    .about-page{padding:40px 4vw;gap:24px;}
+    .about-copy p{font-size:clamp(16px,5vw,22px);}
+
+    .contact{padding:60px 4vw 40px;}
+    .contact-title{font-size:clamp(26px,10vw,42px);}
+    .contact-grid{margin-top:36px;gap:32px;}
+
+    .nav{bottom:10px;padding:4px;}
+    .nav a{font-size:9px;padding:8px 10px;}
+  }
 </style>
 </head>
 <body>
 
 <!-- custom cursor: white pixel hand pointer -->
 <div class="cursor" id="cursor">
-  <svg viewBox="0 0 32 40" xmlns="http://www.w3.org/2000/svg" shape-rendering="crispEdges">
-    <rect x="10" y="0" width="4" height="2" fill="#000"/>
-    <rect x="8" y="2" width="2" height="2" fill="#000"/>
-    <rect x="10" y="2" width="4" height="2" fill="#fff"/>
-    <rect x="14" y="2" width="2" height="2" fill="#000"/>
-    <rect x="6" y="4" width="2" height="2" fill="#000"/>
-    <rect x="8" y="4" width="4" height="2" fill="#fff"/>
-    <rect x="12" y="4" width="2" height="2" fill="#000"/>
-    <rect x="16" y="4" width="2" height="2" fill="#000"/>
-    <rect x="18" y="4" width="4" height="2" fill="#fff"/>
-    <rect x="22" y="4" width="2" height="2" fill="#000"/>
-    <rect x="6" y="6" width="2" height="2" fill="#000"/>
-    <rect x="8" y="6" width="4" height="2" fill="#fff"/>
-    <rect x="12" y="6" width="2" height="2" fill="#000"/>
-    <rect x="16" y="6" width="2" height="2" fill="#000"/>
-    <rect x="18" y="6" width="4" height="2" fill="#fff"/>
-    <rect x="22" y="6" width="2" height="2" fill="#000"/>
-    <rect x="24" y="6" width="2" height="2" fill="#fff"/>
-    <rect x="26" y="6" width="2" height="2" fill="#000"/>
-    <rect x="6" y="8" width="2" height="2" fill="#000"/>
-    <rect x="8" y="8" width="4" height="2" fill="#fff"/>
-    <rect x="12" y="8" width="2" height="2" fill="#000"/>
-    <rect x="16" y="8" width="2" height="2" fill="#000"/>
-    <rect x="18" y="8" width="4" height="2" fill="#fff"/>
-    <rect x="22" y="8" width="2" height="2" fill="#000"/>
-    <rect x="24" y="8" width="4" height="2" fill="#fff"/>
-    <rect x="28" y="8" width="2" height="2" fill="#000"/>
-    <rect x="6" y="10" width="2" height="2" fill="#000"/>
-    <rect x="8" y="10" width="4" height="2" fill="#fff"/>
-    <rect x="12" y="10" width="2" height="2" fill="#000"/>
-    <rect x="16" y="10" width="2" height="2" fill="#000"/>
-    <rect x="18" y="10" width="4" height="2" fill="#fff"/>
-    <rect x="22" y="10" width="2" height="2" fill="#000"/>
-    <rect x="24" y="10" width="4" height="2" fill="#fff"/>
-    <rect x="28" y="10" width="2" height="2" fill="#000"/>
-    <rect x="6" y="12" width="2" height="2" fill="#000"/>
-    <rect x="8" y="12" width="18" height="2" fill="#fff"/>
-    <rect x="26" y="12" width="4" height="2" fill="#fff"/>
-    <rect x="30" y="12" width="2" height="2" fill="#000"/>
-    <rect x="6" y="14" width="2" height="2" fill="#000"/>
-    <rect x="8" y="14" width="18" height="2" fill="#fff"/>
-    <rect x="26" y="14" width="2" height="2" fill="#000"/>
-    <rect x="4" y="16" width="2" height="2" fill="#000"/>
-    <rect x="6" y="16" width="20" height="2" fill="#fff"/>
-    <rect x="26" y="16" width="2" height="2" fill="#000"/>
-    <rect x="4" y="18" width="2" height="2" fill="#000"/>
-    <rect x="6" y="18" width="18" height="2" fill="#fff"/>
-    <rect x="24" y="18" width="2" height="2" fill="#000"/>
-    <rect x="4" y="20" width="2" height="2" fill="#000"/>
-    <rect x="6" y="20" width="16" height="2" fill="#fff"/>
-    <rect x="22" y="20" width="2" height="2" fill="#000"/>
-    <rect x="6" y="22" width="2" height="2" fill="#000"/>
-    <rect x="8" y="22" width="12" height="2" fill="#fff"/>
-    <rect x="20" y="22" width="2" height="2" fill="#000"/>
-    <rect x="8" y="24" width="2" height="2" fill="#000"/>
-    <rect x="10" y="24" width="8" height="2" fill="#fff"/>
-    <rect x="18" y="24" width="2" height="2" fill="#000"/>
-    <rect x="10" y="26" width="2" height="2" fill="#000"/>
-    <rect x="12" y="26" width="4" height="2" fill="#fff"/>
-    <rect x="16" y="26" width="2" height="2" fill="#000"/>
-  </svg>
   <div class="cursor-label" id="cursorLabel"></div>
 </div>
 
@@ -573,7 +591,7 @@
 <!-- ===================== BANNER ===================== -->
 <section class="banner" id="banner">
   <div class="banner-photo">
-    <video autoplay muted loop playsinline preload="metadata" poster="videos/hero-bg-poster.jpg" id="heroVideo">
+    <video autoplay muted loop playsinline preload="auto" poster="videos/hero-bg-poster.jpg" id="heroVideo">
       <source src="videos/hero-bg.mp4" type="video/mp4">
     </video>
   </div>
@@ -852,7 +870,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 /* ---------------- custom cursor: camera icon + eased trailing ---------------- */
 const cursor = document.getElementById('cursor');
 const cursorLabel = document.getElementById('cursorLabel');
-if (cursor) {
+if (cursor && window.matchMedia('(pointer:fine)').matches) {
   let mouseX = -100, mouseY = -100, curX = -100, curY = -100;
   let primed = false;
 
@@ -888,6 +906,8 @@ if (cursor) {
       });
     });
   });
+} else if (cursor) {
+  cursor.style.display = 'none';
 }
 
 /* ---------------- timecode: starts counting on page load at 24fps ---------------- */
@@ -997,7 +1017,7 @@ if (lazyStripVideos.length) {
 (function () {
   const strip = document.getElementById('heroStrip');
   if (!strip) return;
-  const SPEED = 0.6;
+  const SPEED = 0.25;
   let pos = 0, isDragging = false, dragStartX = 0, dragStartPos = 0;
   const halfWidth = () => strip.scrollWidth / 2;
 
@@ -1022,6 +1042,17 @@ if (lazyStripVideos.length) {
     if (!isDragging) return;
     pos = dragStartPos + (e.pageX - dragStartX);
   });
+
+  strip.addEventListener('touchstart', e => {
+    isDragging = true;
+    dragStartX = e.touches[0].pageX;
+    dragStartPos = pos;
+  }, { passive: true });
+  strip.addEventListener('touchmove', e => {
+    if (!isDragging) return;
+    pos = dragStartPos + (e.touches[0].pageX - dragStartX);
+  }, { passive: true });
+  strip.addEventListener('touchend', () => { isDragging = false; });
 })();
 
 /* ---------------- photography marquee: auto-scrolls via CSS, pauses on hover/drag ---------------- */
@@ -1059,6 +1090,25 @@ if (photoStrip) {
     if (!isDown) return;
     const walk = (e.pageX - startX) * 1.4;
     photoStrip.style.transform = 'translateX(' + (startTranslate + walk) + 'px)';
+  });
+
+  photoStrip.addEventListener('touchstart', e => {
+    isDown = true;
+    photoStrip.classList.add('paused');
+    startX = e.touches[0].pageX;
+    startTranslate = currentTranslateX(photoStrip);
+    photoStrip.style.transform = 'translateX(' + startTranslate + 'px)';
+  }, { passive: true });
+  photoStrip.addEventListener('touchmove', e => {
+    if (!isDown) return;
+    const walk = (e.touches[0].pageX - startX) * 1.4;
+    photoStrip.style.transform = 'translateX(' + (startTranslate + walk) + 'px)';
+  }, { passive: true });
+  photoStrip.addEventListener('touchend', () => {
+    if (!isDown) return;
+    isDown = false;
+    photoStrip.style.transform = '';
+    photoStrip.classList.remove('paused');
   });
 }
 
@@ -1128,7 +1178,9 @@ if (bgMusic && musicToggle) {
     bgMusic.play().then(() => {
       musicPlaying = true;
       musicToggle.textContent = 'MUTE';
-    }).catch(() => {});
+    }).catch(() => {
+      musicToggle.textContent = 'PLAY';
+    });
   }
 
   // Try on load
@@ -1178,7 +1230,8 @@ try {
     throw new Error('GSAP/Lenis not loaded');
   }
 
-  const lenis = new Lenis({ duration: 0.6, smoothWheel: true, wheelMultiplier: 1.2 });
+  const isMobile = window.matchMedia('(max-width:860px)').matches || window.matchMedia('(pointer:coarse)').matches;
+  const lenis = new Lenis({ duration: isMobile ? 1 : 0.6, smoothWheel: true, wheelMultiplier: isMobile ? 1.5 : 2.5 });
   window.__lenis = lenis;
   function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
   requestAnimationFrame(raf);
