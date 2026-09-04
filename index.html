@@ -1135,11 +1135,6 @@ if (photoStrip) {
     return m ? parseFloat(m[1].split(',')[4]) : 0;
   }
 
-  wrap.addEventListener('mouseenter', () => photoStrip.classList.add('paused'));
-  wrap.addEventListener('mouseleave', () => {
-    if (!isDown) photoStrip.classList.remove('paused');
-  });
-
   photoStrip.addEventListener('mousedown', e => {
     isDown = true;
     photoStrip.classList.add('paused');
