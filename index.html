@@ -30,13 +30,35 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   html{background:var(--ink);overflow-x:hidden;width:100%;}
   body{
-    background:var(--ink);
     color:var(--paper);
     font-family:var(--body);
     overflow-x:hidden;
     cursor:none;
   }
   ::selection{background:var(--tally);color:var(--paper);}
+
+  /* ---------- fixed scroll background: two full, uncropped images layered and cross-faded as the page scrolls ---------- */
+  .scroll-bg{
+    position:fixed;inset:0;z-index:0;overflow:hidden;background:var(--ink);
+    pointer-events:none;
+  }
+  .scroll-bg img{
+    position:absolute;top:0;left:50%;width:100%;height:auto;min-height:100%;
+    object-fit:cover;object-position:top center;
+    transform:translateX(-50%) translateY(0px);
+    display:block;
+    will-change:transform,opacity;
+  }
+  .scroll-bg #scrollBgImg1{opacity:1;}
+  .scroll-bg #scrollBgImg2{opacity:0;}
+  .scroll-bg::after{
+    content:'';position:absolute;inset:0;
+    background:
+      linear-gradient(180deg, rgba(11,11,12,0.35) 0%, rgba(11,11,12,0.15) 20%, rgba(11,11,12,0.15) 70%, rgba(11,11,12,0.75) 100%);
+  }
+  @media (prefers-reduced-motion: reduce){
+    .scroll-bg img{transition:none;}
+  }
 
   a{color:inherit;text-decoration:none;}
   img{display:block;max-width:100%;}
@@ -73,42 +95,35 @@
     color:var(--ash);pointer-events:none;text-transform:uppercase;
   }
 
-  /* ---------- custom cursor: rotating focus-ring reticle with contextual label ---------- */
+  /* ---------- custom cursor: black arrow with a glowing halo ---------- */
   .cursor{
-    position:fixed;top:0;left:0;width:34px;height:34px;border-radius:50%;
+    position:fixed;top:0;left:0;width:0;height:0;
     z-index:9999;pointer-events:none;
-    transform:translate(-50%,-50%);
     will-change:left,top;
   }
-  .cursor-ring{
-    position:absolute;inset:0;border-radius:50%;
-    border:1.5px dashed var(--tally);
-    box-shadow:0 0 14px rgba(193,68,14,0.45);
-    animation:cursor-spin 6s linear infinite;
-    transition:transform .3s cubic-bezier(.2,.8,.2,1),border-color .3s,opacity .3s;
-  }
-  .cursor-tick{
-    position:absolute;top:-4px;left:50%;width:1.5px;height:5px;
-    background:var(--tally);transform:translateX(-50%);
-  }
-  .cursor-dot{
-    position:absolute;top:50%;left:50%;width:4px;height:4px;border-radius:50%;
-    background:var(--paper);transform:translate(-50%,-50%);
-    transition:opacity .25s;
+  .cursor-arrow{
+    position:absolute;top:0;left:0;display:block;
+    filter:
+      drop-shadow(0 0 5px var(--tungsten))
+      drop-shadow(0 0 14px rgba(216,168,87,0.7))
+      drop-shadow(0 0 26px rgba(216,168,87,0.4));
+    transition:transform .25s cubic-bezier(.2,.8,.2,1),filter .3s;
   }
   .cursor-label{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+    position:absolute;top:26px;left:20px;
     font-family:var(--display);font-size:9px;letter-spacing:.1em;text-transform:uppercase;
     color:var(--paper);opacity:0;white-space:nowrap;transition:opacity .25s;
+    text-shadow:0 0 10px rgba(11,11,12,0.9),0 0 4px rgba(11,11,12,0.9);
   }
-  @keyframes cursor-spin{ to{ transform:rotate(360deg); } }
 
-  /* hover state: ring grows, spins faster, dot hides, label fades in */
-  .cursor.grow .cursor-ring{
-    transform:scale(2.1);border-color:var(--paper);
-    animation-duration:2.4s;
+  /* hover state: arrow grows, glow intensifies, label fades in */
+  .cursor.grow .cursor-arrow{
+    transform:scale(1.35);
+    filter:
+      drop-shadow(0 0 6px var(--paper))
+      drop-shadow(0 0 18px rgba(242,239,233,0.85))
+      drop-shadow(0 0 32px rgba(216,168,87,0.55));
   }
-  .cursor.grow .cursor-dot{opacity:0;}
   .cursor.grow .cursor-label{opacity:1;}
 
   @media (any-pointer:coarse), (hover:none){
@@ -172,11 +187,11 @@
     content:'';position:absolute;inset:0;
     background:linear-gradient(180deg, rgba(11,11,12,0.15) 0%, rgba(11,11,12,0.35) 55%, rgba(11,11,12,0.95) 100%);
   }
-  .banner-content{position:relative;z-index:1;width:100%;padding:0 5vw 64px;
-    display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;}
+  .banner-content{position:relative;z-index:1;width:100%;padding:0 5vw 108px;
+    display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center;}
   .banner-name{
     font-family:'Anton', sans-serif;font-weight:400;text-transform:uppercase;
-    font-size:clamp(56px,12vw,190px);line-height:0.85;letter-spacing:-0.02em;
+    font-size:clamp(40px,8.5vw,130px);line-height:0.85;letter-spacing:-0.02em;
     color:var(--paper);
   }
   .banner-role{
@@ -261,7 +276,7 @@
 
   /* ---------- BANNER STRIP OVERLAY (moving row, layered on the banner video) ---------- */
   .banner-strip-wrap{
-    position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);
+    position:absolute;left:0;right:0;top:38%;transform:translateY(-50%);
     z-index:1;overflow:hidden;display:flex;justify-content:center;
     padding:14px 0;
   }
@@ -278,7 +293,7 @@
   .strip-card img, .strip-card video{width:100%;height:100%;object-fit:cover;filter:grayscale(0.1) contrast(1.05);}
 
   /* ---------- PROJECTS ---------- */
-  .projects{background:var(--ink);padding:110px 5vw 100px;}
+  .projects{background:rgba(11,11,12,0.86);padding:110px 5vw 100px;}
   .section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;
     margin-bottom:72px;flex-wrap:wrap;}
   .eyebrow{font-family:var(--accent-serif);font-style:italic;color:var(--tungsten);font-size:18px;margin-bottom:10px;display:block;}
@@ -475,15 +490,17 @@
 </head>
 <body>
 
+<!-- fixed background: moves + scales smoothly as the page scrolls -->
+<div class="scroll-bg" id="scrollBg" aria-hidden="true">
+  <img id="scrollBgImg1" src="images/scroll-bg-1.jpg" alt="">
+  <img id="scrollBgImg2" src="images/scroll-bg-2.gif" alt="">
+</div>
+
 <!-- viewfinder chrome -->
 <div class="cursor" id="cursor">
-  <div class="cursor-ring">
-    <span class="cursor-tick" style="top:-4px;left:50%;transform:translateX(-50%);"></span>
-    <span class="cursor-tick" style="bottom:-4px;left:50%;top:auto;transform:translateX(-50%) rotate(180deg);"></span>
-    <span class="cursor-tick" style="left:-4px;top:50%;transform:translateY(-50%) rotate(-90deg);"></span>
-    <span class="cursor-tick" style="right:-4px;left:auto;top:50%;transform:translateY(-50%) rotate(90deg);"></span>
-  </div>
-  <div class="cursor-dot"></div>
+  <svg class="cursor-arrow" width="26" height="26" viewBox="0 0 26 26" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 1.5 L3 20.5 L8 16 L11.5 23.5 L15 22 L11.5 14.5 L18.5 14.5 Z" fill="#000000"/>
+  </svg>
   <div class="cursor-label" id="cursorLabel"></div>
 </div>
 <div class="frame-line top"></div>
@@ -771,6 +788,69 @@ document.getElementById('year').textContent = new Date().getFullYear();
    Cursor, video autoplay, Instagram embeds, and nav-click all live
    here so a blocked/slow CDN can never take them down.
    ================================================================ */
+
+/* ---------------- fixed scroll background: two images, each panning down through the page
+   as you scroll, cross-fading from the first into the second around the midpoint. Plain JS +
+   native scroll event — no GSAP/ScrollTrigger/Lenis dependency, so it always works even if
+   those CDN scripts are blocked or slow. ---------------- */
+(function(){
+  const layers = [
+    document.getElementById('scrollBgImg1'),
+    document.getElementById('scrollBgImg2')
+  ].filter(Boolean);
+  if (!layers.length || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const maxPan = layers.map(()=>0);
+
+  // crossfade window: image 1 fully visible until FADE_START, image 2 fully visible after FADE_END
+  const FADE_START = 0.38;
+  const FADE_END = 0.62;
+
+  function measure(){
+    const vh = window.innerHeight;
+    layers.forEach((img, i)=>{
+      let imgH = img.getBoundingClientRect().height;
+      if (!imgH && img.naturalWidth) {
+        imgH = window.innerWidth * (img.naturalHeight / img.naturalWidth);
+      }
+      maxPan[i] = Math.max(0, imgH - vh);
+    });
+  }
+
+  function update(){
+    const doc = document.documentElement;
+    const scrollTop = window.pageYOffset || doc.scrollTop || document.body.scrollTop || 0;
+    const scrollable = Math.max(1, doc.scrollHeight - window.innerHeight);
+    const progress = Math.min(1, Math.max(0, scrollTop / scrollable));
+
+    layers.forEach((img, i)=>{
+      img.style.transform = `translateX(-50%) translateY(${-(progress * maxPan[i])}px)`;
+    });
+
+    const fadeProgress = Math.min(1, Math.max(0, (progress - FADE_START) / (FADE_END - FADE_START)));
+    layers[0].style.opacity = 1 - fadeProgress;
+    if (layers[1]) layers[1].style.opacity = fadeProgress;
+  }
+
+  measure();
+  update();
+
+  let ticking = false;
+  function onScroll(){
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(()=>{ update(); ticking = false; });
+  }
+
+  window.addEventListener('scroll', onScroll, { passive:true });
+  window.addEventListener('resize', ()=>{ measure(); update(); });
+
+  layers.forEach(img=>{
+    if (!(img.complete && img.naturalWidth)) {
+      img.addEventListener('load', ()=>{ measure(); update(); });
+    }
+  });
+})();
 
 /* ---------------- custom cursor: eased trailing reticle + contextual labels ---------------- */
 const cursor = document.getElementById('cursor');
