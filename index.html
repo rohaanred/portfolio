@@ -662,17 +662,17 @@
   <!-- moving strip, layered on top of the banner video: 5 real clips, muted loop, lazy-loaded as they scroll into view. Duplicated once for a seamless infinite loop. -->
   <div class="banner-strip-wrap">
     <div class="banner-strip" id="heroStrip">
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-1-poster.jpg" data-src="videos/strip/strip-1.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-2-poster.jpg" data-src="videos/strip/strip-2.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-3-poster.jpg" data-src="videos/strip/strip-3.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-4-poster.jpg" data-src="videos/strip/strip-4.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-5-poster.jpg" data-src="videos/strip/strip-5.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-1-poster.jpg" data-src="videos/strip/strip-1.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-2-poster.jpg" data-src="videos/strip/strip-2.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-3-poster.jpg" data-src="videos/strip/strip-3.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-4-poster.jpg" data-src="videos/strip/strip-4.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-5-poster.jpg" data-src="videos/strip/strip-5.mp4"></video></div>
       <!-- duplicate set — required for the seamless infinite loop, keep identical to the set above -->
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-1-poster.jpg" data-src="videos/strip/strip-1.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-2-poster.jpg" data-src="videos/strip/strip-2.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-3-poster.jpg" data-src="videos/strip/strip-3.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-4-poster.jpg" data-src="videos/strip/strip-4.mp4"></video></div>
-      <div class="strip-card"><video class="lazy-strip-video" autoplay muted loop playsinline preload="auto" poster="videos/strip/strip-5-poster.jpg" data-src="videos/strip/strip-5.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-1-poster.jpg" data-src="videos/strip/strip-1.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-2-poster.jpg" data-src="videos/strip/strip-2.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-3-poster.jpg" data-src="videos/strip/strip-3.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-4-poster.jpg" data-src="videos/strip/strip-4.mp4"></video></div>
+      <div class="strip-card"><video class="lazy-strip-video" muted loop playsinline preload="none" poster="videos/strip/strip-5-poster.jpg" data-src="videos/strip/strip-5.mp4"></video></div>
     </div>
   </div>
 
@@ -783,7 +783,7 @@
 
   <div class="about-page about-page-1">
     <div class="about-visual">
-      <img src="images/rohan-portrait.jpg" alt="Rohan">
+      <img src="images/rohan-portrait.jpg" alt="Rohan" loading="lazy">
       <span class="frame-tag">Rohan — On Set</span>
     </div>
     <div class="about-copy">
@@ -836,19 +836,19 @@
   <div class="photo-strip-wrap">
     <div class="photo-strip" id="photoStrip">
       <!-- Photo set. Rohan's portrait sits in an odd (3/4) slot on purpose — its source is already 3:4, so it displays uncropped with his head fully in frame. -->
-      <div class="photo-card"><img src="images/gallery/photo-6.jpg" alt="Rohan in the mountains"></div>
-      <div class="photo-card"><img src="images/gallery/photo-1.jpg" alt="Concert stage" style="object-position:center 30%;"></div>
-      <div class="photo-card"><img src="images/gallery/photo-3.jpg" alt="Snow mountains and river"></div>
-      <div class="photo-card"><img src="images/gallery/photo-4.jpg" alt="Bird over mountains" style="object-position:center 60%;"></div>
-      <div class="photo-card"><img src="images/gallery/photo-2.jpg" alt="Cameraman silhouette at concert"></div>
-      <div class="photo-card"><img src="images/gallery/photo-5.jpg" alt="Road at dawn" style="object-position:center 55%;"></div>
+      <div class="photo-card"><img src="images/gallery/photo-6.jpg" alt="Rohan in the mountains" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-1.jpg" alt="Concert stage" style="object-position:center 30%;" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-3.jpg" alt="Snow mountains and river" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-4.jpg" alt="Bird over mountains" style="object-position:center 60%;" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-2.jpg" alt="Cameraman silhouette at concert" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-5.jpg" alt="Road at dawn" style="object-position:center 55%;" loading="lazy"></div>
       <!-- duplicate set — required for the seamless infinite loop, keep identical to the set above -->
-      <div class="photo-card"><img src="images/gallery/photo-6.jpg" alt="Rohan in the mountains"></div>
-      <div class="photo-card"><img src="images/gallery/photo-1.jpg" alt="Concert stage" style="object-position:center 30%;"></div>
-      <div class="photo-card"><img src="images/gallery/photo-3.jpg" alt="Snow mountains and river"></div>
-      <div class="photo-card"><img src="images/gallery/photo-4.jpg" alt="Bird over mountains" style="object-position:center 60%;"></div>
-      <div class="photo-card"><img src="images/gallery/photo-2.jpg" alt="Cameraman silhouette at concert"></div>
-      <div class="photo-card"><img src="images/gallery/photo-5.jpg" alt="Road at dawn" style="object-position:center 55%;"></div>
+      <div class="photo-card"><img src="images/gallery/photo-6.jpg" alt="Rohan in the mountains" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-1.jpg" alt="Concert stage" style="object-position:center 30%;" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-3.jpg" alt="Snow mountains and river" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-4.jpg" alt="Bird over mountains" style="object-position:center 60%;" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-2.jpg" alt="Cameraman silhouette at concert" loading="lazy"></div>
+      <div class="photo-card"><img src="images/gallery/photo-5.jpg" alt="Road at dawn" style="object-position:center 55%;" loading="lazy"></div>
     </div>
   </div>
 </section>
@@ -1017,7 +1017,7 @@ document.getElementById('year').textContent = new Date().getFullYear();
 /* ---------------- custom cursor: eased trailing reticle + contextual labels ---------------- */
 const cursor = document.getElementById('cursor');
 const cursorLabel = document.getElementById('cursorLabel');
-if (cursor) {
+if (cursor && !('ontouchstart' in window)) {
   let mouseX = -100, mouseY = -100, curX = -100, curY = -100;
   let primed = false;
 
@@ -1074,6 +1074,8 @@ const nvObserver = new IntersectionObserver((entries)=>{
       }
       vid.classList.add('loaded');
       vid.play().catch(()=>{});
+    } else {
+      if(!vid.paused) vid.pause();
     }
   });
 }, { threshold: 0.1 });
@@ -1085,51 +1087,35 @@ nativeVideoProjects.forEach(card=>{
   });
 });
 
-/* ---------------- project video previews: autoplay muted on scroll-into-view, click opens original link ---------------- */
-const videoProjects = document.querySelectorAll('.project[data-yt]');
-const ytObserver = new IntersectionObserver((entries)=>{
-  entries.forEach(entry=>{
-    const card = entry.target;
-    const embedLayer = card.querySelector('.video-embed');
-    if(entry.isIntersecting){
-      if(!embedLayer.dataset.loaded){
-        const id = card.getAttribute('data-yt');
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${id}?autoplay=1&mute=1&loop=1&playlist=${id}&controls=0&modestbranding=1&rel=0&playsinline=1`;
-        iframe.allow = 'autoplay; encrypted-media';
-        embedLayer.appendChild(iframe);
-        embedLayer.dataset.loaded = 'true';
-      }
-      embedLayer.classList.add('loaded');
-    } else {
-      embedLayer.classList.remove('loaded');
-    }
-  });
-}, { threshold: 0.35 });
-
-videoProjects.forEach(card=>{
-  ytObserver.observe(card);
-  card.addEventListener('click', ()=>{
-    window.open(card.getAttribute('data-link'), '_blank', 'noopener');
-  });
-});
-
-/* ---------------- strip videos: load once, play once, never touch again ---------------- */
+/* ---------------- strip videos: lazy-load via IntersectionObserver, pause when out of view ---------------- */
 (function(){
   var vids = document.querySelectorAll('.lazy-strip-video');
-  vids.forEach(function(v){
-    v.src = v.getAttribute('data-src');
-    v.load();
-  });
-  function playAll(){
-    vids.forEach(function(v){
-      if (v.paused) v.play().catch(function(){});
+  var loaded = new Set();
+
+  var observer = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      var v = entry.target;
+      if(entry.isIntersecting){
+        if(!loaded.has(v)){
+          v.src = v.getAttribute('data-src');
+          v.load();
+          loaded.add(v);
+        }
+        if(v.paused) v.play().catch(function(){});
+      } else {
+        if(!v.paused) v.pause();
+      }
     });
-  }
-  if (document.readyState === 'complete') playAll();
-  else window.addEventListener('load', playAll);
+  }, { rootMargin: '200px' });
+
+  vids.forEach(function(v){ observer.observe(v); });
+
   document.addEventListener('visibilitychange', function(){
-    if (!document.hidden) playAll();
+    if(!document.hidden){
+      vids.forEach(function(v){
+        if(loaded.has(v) && v.paused) v.play().catch(function(){});
+      });
+    }
   });
 })();
 
@@ -1287,13 +1273,20 @@ try {
     throw new Error('GSAP/Lenis not loaded — skipping enhanced animation, base site still functional.');
   }
 
-  const lenis = new Lenis({ duration: 1.1, smoothWheel: true });
-  window.__lenis = lenis;
-  function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
-  requestAnimationFrame(raf);
   gsap.registerPlugin(ScrollTrigger);
-  lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((time)=>{ lenis.raf(time*1000); });
+
+  const isMobile = window.matchMedia('(max-width: 860px)').matches || ('ontouchstart' in window);
+  let lenis;
+
+  if (!isMobile) {
+    lenis = new Lenis({ duration: 1.1, smoothWheel: true });
+    window.__lenis = lenis;
+    function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
+    requestAnimationFrame(raf);
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add((time)=>{ lenis.raf(time*1000); });
+  }
+
   gsap.ticker.lagSmoothing(0);
 
   /* hero text reveal */
@@ -1338,13 +1331,16 @@ try {
   console.warn('[portfolio] enhanced animation layer skipped:', err.message);
 }
 
-/* HUD timecode — real-time counter, starts on page load (OUTSIDE try/catch) */
+/* HUD timecode — real-time counter, pauses when tab is hidden */
 (function(){
   const tc = document.getElementById('timecode');
   if(!tc) return;
   function pad(n){return String(n).padStart(2,'0');}
   const startTime = performance.now();
+  let paused = false;
   function updateTimecode(){
+    if(document.hidden){ paused = true; requestAnimationFrame(updateTimecode); return; }
+    if(paused){ paused = false; }
     const elapsed = Math.floor((performance.now() - startTime) / 1000);
     const frames = Math.floor(((performance.now() - startTime) % 1000) / (1000/24));
     const secs = elapsed % 60;
