@@ -269,7 +269,7 @@
 
   /* ---------- BANNER STRIP OVERLAY (moving row, layered on the banner video) ---------- */
   .banner-strip-wrap{
-    position:absolute;left:0;right:0;top:28%;transform:translateY(-50%);
+    position:absolute;left:0;right:0;top:45%;transform:translateY(-50%);
     z-index:1;overflow:hidden;display:flex;justify-content:center;
     padding:14px 0;
     background:rgba(11,11,12,0.7);
@@ -1052,7 +1052,7 @@ if (cursor) {
   });
 }
 
-/* ---------------- native <video> previews (uploaded mp4s): play on scroll-into-view ---------------- */
+/* ---------------- native <video> previews (uploaded mp4s): load once on scroll-into-view, play forever ---------------- */
 const nativeVideoProjects = document.querySelectorAll('.project[data-video-src]');
 const nvObserver = new IntersectionObserver((entries)=>{
   entries.forEach(entry=>{
@@ -1065,13 +1065,10 @@ const nvObserver = new IntersectionObserver((entries)=>{
         vid.dataset.loaded = 'true';
       }
       vid.classList.add('loaded');
-      vid.play().catch(()=>{ /* autoplay blocked until user interacts — fine, poster still shows */ });
-    } else {
-      vid.classList.remove('loaded');
-      vid.pause();
+      vid.play().catch(()=>{});
     }
   });
-}, { threshold: 0.35 });
+}, { threshold: 0.1 });
 
 nativeVideoProjects.forEach(card=>{
   nvObserver.observe(card);
