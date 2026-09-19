@@ -333,6 +333,8 @@
     .project{grid-column:1 / -1 !important;grid-row:auto !important;}
     .project:not(.project-kolkata){aspect-ratio:16/9 !important;}
     .project-kolkata{aspect-ratio:4/3 !important;}
+    /* Safety net: force visibility even if GSAP inline styles get stuck */
+    .project,.stories-label,.section-head,.section-title{opacity:1!important;transform:none!important;}
   }
   /* REPLACE_THUMB_n — swap these gradient plates for real project stills */
   .project:nth-child(1) .thumb{background:radial-gradient(circle at 30% 30%,rgba(193,68,14,.28),transparent 60%),linear-gradient(150deg,#131313,#000);}
@@ -1269,8 +1271,8 @@ document.querySelectorAll('.nav a, a[href^="#"]').forEach(a=>{
    scripts fail to load, the site above still fully works.
    ================================================================ */
 try {
-  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined' || typeof Lenis === 'undefined') {
-    throw new Error('GSAP/Lenis not loaded — skipping enhanced animation, base site still functional.');
+  if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') {
+    throw new Error('GSAP not loaded — skipping enhanced animation, base site still functional.');
   }
 
   gsap.registerPlugin(ScrollTrigger);
@@ -1278,7 +1280,7 @@ try {
   const isMobile = window.matchMedia('(max-width: 860px)').matches || ('ontouchstart' in window);
   let lenis;
 
-  if (!isMobile) {
+  if (!isMobile && typeof Lenis !== 'undefined') {
     lenis = new Lenis({ duration: 1.1, smoothWheel: true });
     window.__lenis = lenis;
     function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
@@ -1297,19 +1299,21 @@ try {
     opacity:0, y:14, duration:1, ease:'power3.out', stagger:0.08, delay:0.6
   });
 
-  /* project + section-title reveal */
-  gsap.utils.toArray('.project').forEach((p)=>{
-    gsap.from(p, {
-      opacity:0, y:60, duration:0.9, ease:'power3.out',
-      scrollTrigger:{ trigger:p, start:'top 88%' }
+  /* project + section-title reveal — skip on mobile to avoid opacity:0 getting stuck */
+  if (!isMobile) {
+    gsap.utils.toArray('.project').forEach((p)=>{
+      gsap.from(p, {
+        opacity:0, y:60, duration:0.9, ease:'power3.out',
+        scrollTrigger:{ trigger:p, start:'top 88%' }
+      });
     });
-  });
-  gsap.utils.toArray('.section-title').forEach(t=>{
-    gsap.from(t, {
-      opacity:0, y:30, duration:0.9, ease:'power3.out',
-      scrollTrigger:{ trigger:t, start:'top 90%' }
+    gsap.utils.toArray('.section-title').forEach(t=>{
+      gsap.from(t, {
+        opacity:0, y:30, duration:0.9, ease:'power3.out',
+        scrollTrigger:{ trigger:t, start:'top 90%' }
+      });
     });
-  });
+  }
 
   /* nav scroll-spy glow */
   const navLinks = document.querySelectorAll('.nav a');
